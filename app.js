@@ -21,13 +21,23 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname + '/node_modules'))
 app.use(express.static(__dirname + '/public'))
 
-// router goes here
+// router goes heres
 
 app.listen(1337, function () {
   console.log('listening on 1337')
 })
 app.use(router)
+app.use(function (req, res, next) {
+  var err = new Error('Not Found')
+  err.status = 404
+  next(err)
+})
+
+// handle all errors (anything passed into `next()`)
 app.use(function (err, req, res, next) {
+  res.status(err.status || 500)
   console.error(err)
-  res.status(500).send(err.message)
+  res.render(
+    // ... fill in this part
+  )
 })
