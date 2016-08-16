@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 // const models = require('./models')
 
 const app = express()
-// require routers
+const router = require('./routes')
 
 app.engine('html', swig.renderFile)
 swig.setDefaults({ cache: false })
@@ -26,7 +26,7 @@ app.use(express.static(__dirname + '/public'))
 app.listen(1337, function () {
   console.log('listening on 1337')
 })
-
+app.use(router)
 app.use(function (err, req, res, next) {
   console.error(err)
   res.status(500).send(err.message)
