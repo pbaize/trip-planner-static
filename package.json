@@ -1,0 +1,28 @@
+{
+  "name": "trip-planner-static",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -e js,css,scss,html app.js",
+    "build-css": "node-sass -w assets/stylesheets/style.scss -o public/stylesheets"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "marked": "^0.3.6",
+    "morgan": "^1.7.0",
+    "node-sass": "^3.8.0",
+    "pg": "^6.0.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.23.6",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.10.0"
+  }
+}
