@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize')
-const db = new Sequelize('postgres://localhost:5432/trip_planner')
+const db = new Sequelize('postgres://localhost:5432/tripplanner')
 
 // -- PLACE MODEL --
-
-var Place = db.define('place', placeSchema, placeOptions)
 
 var placeSchema = {}
 placeSchema.address = {type: Sequelize.STRING, allowNull: false}
@@ -14,23 +12,22 @@ placeSchema.location = {type: Sequelize.ARRAY(Sequelize.FLOAT), allowNull: false
 
 var placeOptions = {}
 
+var Place = db.define('place', placeSchema, placeOptions)
 // -- HOTEL MODEL --
-
-var Hotel = db.define('hotel', hotelSchema, hotelOptions)
 
 var hotelSchema = {}
 hotelSchema.name = {type: Sequelize.STRING, allowNull: false}
-hotelSchema.num_stars = {type: Sequelize.ENUM(1, 2, 3, 4, 5)}
+hotelSchema.num_stars = {type: Sequelize.INTEGER}
 hotelSchema.amenities = {type: Sequelize.STRING}
 
 var hotelOptions = {}
-hotelOptions.setterMethods = {
+hotelOptions.getterMethods = {
   amenities: makeSetter('amenities')
 }
 
-// -- ACTIVITY MODEL --
+var Hotel = db.define('hotel', hotelSchema, hotelOptions)
 
-var Activity = db.define('activity', activitySchema, activityOptions)
+// -- ACTIVITY MODEL --
 
 var activitySchema = {}
 activitySchema.name = {type: Sequelize.STRING, allowNull: false}
@@ -38,20 +35,21 @@ activitySchema.age_range = {type: Sequelize.STRING}
 
 var activityOptions = {}
 
-// -- RESTAURANT MODEL --
+var Activity = db.define('activity', activitySchema, activityOptions)
 
-var Restaurant = db.define('restaurant', restaurantSchema, restaurantOptions)
+// -- RESTAURANT MODEL --
 
 var restaurantSchema = {}
 restaurantSchema.name = {type: Sequelize.STRING, allowNull: false}
 restaurantSchema.cuisine = {type: Sequelize.STRING}
 
-restaurantSchema.price = {type: Sequelize.ENUM(1, 2, 3, 4, 5)}
+restaurantSchema.price = {type: Sequelize.INTEGER}
 
 var restaurantOptions = {}
-restaurantOptions.setterMethods = {
+restaurantOptions.getterMethods = {
   cuisine: makeSetter('cuisine')
 }
+var Restaurant = db.define('restaurant', restaurantSchema, restaurantOptions)
 
 function makeSetter (columnName) {
   return function (value) {
@@ -65,6 +63,16 @@ function makeSetter (columnName) {
       this.setDataValue(columnName, value)
     }
   }
+}
+
+// db.sync()
+
+module.exports = {
+  dataBase: db,
+  Activity: Activity,
+  Restaurant: Restaurant,
+  Place: Place,
+  Hotel: Hotel
 }
 
 Hotel.belongsTo(Place)
